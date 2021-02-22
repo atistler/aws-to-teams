@@ -9,7 +9,7 @@ exports.parse = async event => {
 	const message = event.message;
 	const accountId = message.AWSAccountId;
 	const alarmName = message.AlarmName;
-	// const description = message.AlarmDescription;
+	const description = message.AlarmDescription;
 	const oldState = message.OldStateValue;
 	const newState = message.NewStateValue;
 	const reason = message.NewStateReason;
@@ -53,7 +53,7 @@ exports.parse = async event => {
 		fallback: `${alarmName} state is now ${newState}:\n${reason}`,
 		color: color,
 		author_name: `AWS CloudWatch Alarm (${accountId})`,
-		title: alarmName,
+		title: description,
 		title_link: event.consoleUrl(`/cloudwatch/home?region=${region}#alarm:name=${alarmName}`),
 		text,
 		fields: [{

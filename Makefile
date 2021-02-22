@@ -103,5 +103,5 @@ REGIONS ?= \
 .PHONY: publish
 publish: $(usesReleaseZip) $(REGIONS)
 $(REGIONS):
-	aws $(awsProfile) s3 cp "./cloudformation.yaml" "s3://aws-to-slack-$@" --acl public-read
-	aws $(awsProfile) s3 cp "$(RELEASE_ZIP)" "s3://aws-to-slack-$@" --acl public-read
+	aws $(awsProfile) s3 cp "./cloudformation.yaml" "s3://aws-to-teams-$@" --acl public-read
+	aws $(awsProfile) s3 cp "$(RELEASE_ZIP)" "s3://aws-to-teams-$@" --acl public-read

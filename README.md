@@ -1,11 +1,9 @@
-# AWS-to-Slack
-
-[![npm](https://img.shields.io/npm/v/aws-to-slack.svg)](https://www.npmjs.com/package/aws-to-slack)
-[![license](https://img.shields.io/github/license/arabold/aws-to-slack.svg)](https://github.com/arabold/aws-to-slack/blob/master/LICENSE)
-[![dependencies](https://img.shields.io/david/arabold/aws-to-slack.svg)](https://www.npmjs.com/package/aws-to-slack)
+# AWS-to-Teams
 
 
-Forward AWS CloudWatch Alarms and other notifications from Amazon SNS to Slack.
+
+
+Forward AWS CloudWatch Alarms and other notifications from Amazon SNS to Microsoft Teams.
 
 <table>
    <tr>
@@ -19,8 +17,8 @@ Forward AWS CloudWatch Alarms and other notifications from Amazon SNS to Slack.
 </table>
 
 ## What is it?
-_AWS-to-Slack_ is a Lambda function written in Node.js that forwards alarms and
-notifications to a dedicated [Slack](https://slack.com) channel. It is self-hosted
+_AWS-to-Teams_ is a Lambda function written in Node.js that forwards alarms and
+notifications to a dedicated Teams channel. It is self-hosted
 in your own AWS environment and doesn't have any 3rd party dependencies other
 than the Google Charts API for rendering CloudWatch metrics.
 
@@ -50,7 +48,7 @@ Ready to try the latest version for yourself? Installation into your own AWS env
 
 ### Option 1: Quick Start (OLD CODE)
 
-[![Launch CloudFormation Stack](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=aws-to-slack)
+[![Launch CloudFormation Stack](https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=aws-to-teams)
 
 *Warning!* The template referenced by this link is an old template and old code! If you want the latest version of this repo, you need to update the Lambda code after it's launched.
       
@@ -58,9 +56,9 @@ Ready to try the latest version for yourself? Installation into your own AWS env
 
 1. Download this repo locally.
 
-1. Use AWS Console's [Create CloudFormation Stack](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=aws-to-slack) tool.
+1. Use AWS Console's [Create CloudFormation Stack](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=aws-to-teams) tool.
 
-   Upload [cloudformation.yaml](https://raw.githubusercontent.com/arabold/aws-to-slack/master/cloudformation.yaml) as your template.
+   Upload [cloudformation.yaml](https://raw.githubusercontent.com/arabold/aws-to-teams/master/cloudformation.yaml) as your template.
 
 1. Finish launching the Stack.
 
@@ -82,26 +80,16 @@ See [Managing Multiple Deployments](#managing-multiple-deployments) for a `.env`
 
 ## Installation
 
-### Step 1: Setup Slack
-The Lambda function communicates with Slack through a Slack webhook
-[webhook](https://my.slack.com/apps/manage). Note that you can either create an app, or a custom integration > Incoming webhook (easier, will only let you add a webhook)
+### Step 1: Setup Microsoft Teams
+The Lambda function communicates with Teams through a Teams webhook
 
-1. Navigate to https://my.slack.com/apps/manage and click
-   "Add Configuration".
-2. Choose the default channel where messages will be sent and click
-   "Add Incoming WebHooks Integration".
-3. Copy the webhook URL from the setup instructions and use it in the next
-   section.
-4. Click "Save Settings" at the bottom of the Slack integration page.
-
-![Slack Configuration](./docs/config-slack.png)
 
 ### Step 2: Configure & Launch the CloudFormation Stack
 
 Note that the AWS region will be the region from which you launch the CloudFormation wizard, which will also scope the resources (SNS, etc.) to that region. 
 
 Launch the CloudFormation Stack by using our preconfigured CloudFormation
-[template](https://raw.githubusercontent.com/arabold/aws-to-slack/master/cloudformation.yaml) and following the [steps above](#try).
+[template](https://raw.githubusercontent.com/atistler/aws-to-teams/master/cloudformation.yaml) and following the [steps above](#try).
 
 **Afterwards**
 
@@ -125,13 +113,13 @@ switch to the "Triggers" tab and subscribe for all events you're interested in.
 
 ### Setting Up AWS CodeBuild
 CodeBuild integration was suggested by [ericcj](https://github.com/ericcj) and is based on
-the Medium post [Monitor your AWS CodeBuilds via Lambda and Slack](https://hackernoon.com/monitor-your-aws-codebuilds-via-lambda-and-slack-ae2c621f68f1) by
+the Medium post [Monitor your AWS CodeBuilds via Lambda and Teams](https://hackernoon.com/monitor-your-aws-codebuilds-via-lambda-and-slack-ae2c621f68f1) by
 Randy Findley. 
 
 To enable CodeBuild notifications add a new _CloudWatch Event Rule_, choose _CodeBuild_
-as source and _CodeBuild Build State Change_ as type. As Target select the `aws-to-slack`
+as source and _CodeBuild Build State Change_ as type. As Target select the `aws-to-teams`
 Lambda. You can leave all other settings as is. Once your rule is created all CodeBuild
-build state events will be forwarded to your Slack channel.
+build state events will be forwarded to your Teams channel.
 
 ### Setting Up AWS CodeCommit
 
@@ -144,7 +132,7 @@ as the source, and select one of the supported event types:
 * _CodeCommit Repository State Change_ - Will generate events when a branch
   or tag reference is created, updated, or deleted.
 
-Add the `aws-to-slack` lambda as the target. No other settings are needed.
+Add the `aws-to-teams` lambda as the target. No other settings are needed.
 
 ## Managing Multiple Deployments
 
@@ -168,7 +156,7 @@ TARGET=targets/my-deploy.env make update-stack
 
 You want to contribute? That's awesome! 🎉
 
-Check out our [issues page](https://github.com/arabold/aws-to-slack/issues) for
+Check out our [issues page](https://github.com/arabold/aws-to-teams/issues) for
 some ideas how to contribute and a list of open tasks. There're plenty of
 notification formats that still need to be supported.
 

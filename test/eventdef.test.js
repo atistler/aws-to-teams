@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-const EventDef = require('../src/eventdef');
+const EventDef = require('../src/teams/eventdef');
 
 test(`EventDef parses raw event`, async () => {
 	const testArn = "arn:aws:glue:eu-west-1:123456789012:table/d1/t1:suffix";

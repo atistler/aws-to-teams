@@ -1,35 +1,35 @@
 const _ = require("lodash")
 	, EventDef = require("./eventdef")
-	, Slack = require("./slack")
+	, Teams = require("./teams")
+	, TeamsEventDef = require("./teams/eventdef")
 	, Emailer = require("./ses")
 	, defaultParserWaterfall = [
-		// Ordered list of parsers:
-		"cloudwatch",
-		"codecommit/pullrequest",
-		"codecommit/repository",
-		"autoscaling",
-		"aws-health",
-		"batch-events",
-		"beanstalk",
-		"cloudformation",
-		"codebuild",
-		"codedeployCloudWatch",
-		"codedeploySns",
-		"codepipeline",
-		"codepipeline-approval",
-		"guardduty",
-		"inspector",
-		"rds",
-		"ecs-event",
-		"ses-bounce",
-		"ses-complaint",
-		"ses-received",
-		// Last attempt to parse, will match any message:
-		"generic",
-	];
+	// Ordered list of parsers:
+	"cloudwatch",
+	"codecommit/pullrequest",
+	"codecommit/repository",
+	"autoscaling",
+	"aws-health",
+	"batch-events",
+	"beanstalk",
+	"cloudformation",
+	"codebuild",
+	"codedeployCloudWatch",
+	"codedeploySns",
+	"codepipeline",
+	"codepipeline-approval",
+	"guardduty",
+	"inspector",
+	"rds",
+	"ecs-event",
+	"ses-bounce",
+	"ses-complaint",
+	"ses-received",
+	// Last attempt to parse, will match any message:
+	"generic"
+];
 
 class LambdaHandler {
-
 	constructor(waterfall = defaultParserWaterfall) {
 		this.lastParser = null;
 		this.parsers = _.map(waterfall, name => {
@@ -72,11 +72,9 @@ class LambdaHandler {
 						// leave value in this.lastParser
 						return null;// never send empty message
 					}
-
-					return { parser, parserName, slackMessage: message };
+					return { parser, parserName, message };
 				}
-			}
-			catch (e) {
+			} catch (e) {
 				console.error(`Error parsing event [parser:${parserName}]:`, e);
 			}
 			// clear state
@@ -94,8 +92,7 @@ class LambdaHandler {
 		return _.filter(this.parsers, parser => {
 			try {
 				return parser.matches(eventDef);
-			}
-			catch (err) {
+			} catch (err) {
 				console.error(`matchToParser[${parser.name}]`, err);
 				return false;
 			}
@@ -117,8 +114,7 @@ class LambdaHandler {
 		if (_.isString(event)) {
 			try {
 				event = JSON.parse(event);
-			}
-			catch (err) {
+			} catch (err) {
 				console.error(`Error parsing event JSON (continuing...): ${event}`);
 			}
 		}
@@ -134,14 +130,14 @@ class LambdaHandler {
 				for (const i in Records) {
 					// Copy single record into event
 					const singleRecordEvent = _.assign({}, event, {
-						Records: [ Records[i] ],
+						Records: [Records[i]],
 					});
 
-					const res = await handler.processEvent(new EventDef(singleRecordEvent));
+					const res = await handler.processEvent(new TeamsEventDef(singleRecordEvent));
 					if (res) {
-						const message = res.slackMessage;
-						console.log(`SNS-Record[${i}]: Sending Slack message from Parser[${res.parserName}]:`, JSON.stringify(message, null, 2));
-						waitingTasks.push(Slack.postMessage(message));
+						const { message } = res;
+						console.log(`SNS-Record[${i}]: Sending Teams message from Parser[${slackRes.parserName}]:`, JSON.stringify(message, null, 2));
+						waitingTasks.push(Teams.postMessage(message));
 						waitingTasks.push(Emailer.checkAndSend(message, event));
 					}
 					else if (handler.lastParser) {
@@ -153,11 +149,11 @@ class LambdaHandler {
 				}
 			}
 			else {
-				const res = await handler.processEvent(new EventDef(event));
+				const res = await handler.processEvent(new TeamsEventDef(event));
 				if (res) {
-					const message = res.slackMessage;
-					console.log(`Sending Slack message from Parser[${res.parserName}]:`, JSON.stringify(message, null, 2));
-					waitingTasks.push(Slack.postMessage(message));
+					const { message } = res;
+					console.log(`Sending Teams message from Parser[${res.parserName}]:`, JSON.stringify(message, null, 2));
+					waitingTasks.push(Teams.postMessage(message));
 					waitingTasks.push(Emailer.checkAndSend(message, event));
 				}
 				else if (handler.lastParser) {
@@ -171,8 +167,7 @@ class LambdaHandler {
 			await Promise.all(waitingTasks);
 
 			callback();
-		}
-		catch (e) {
+		} catch (e) {
 			console.log("ERROR:", e);
 			callback(e);
 		}

@@ -1,0 +1,22 @@
+{
+    "Records": [
+        {
+            "EventSource": "aws:sns",
+            "EventVersion": "1.0",
+            "EventSubscriptionArn": "arn:aws:sns:us-east-2:194648440784:zamboni-staging-default-lambda-threshold-alerts20180815150821830200000004:b2929e17-8b78-4625-864e-be046ada80d6",
+            "Sns": {
+                "Type": "Notification",
+                "MessageId": "cc9d5dab-f077-5cd1-bc02-053c70c474a1",
+                "TopicArn": "arn:aws:sns:us-east-2:194648440784:zamboni-staging-default-lambda-threshold-alerts20180815150821830200000004",
+                "Subject": "OK: \"lambda-throttles-greaterthanthreshold-zamboni-staging-default-aws-resourc...\" in US East (Ohio)",
+                "Message": "{\"AlarmName\":\"lambda-throttles-greaterthanthreshold-zamboni-staging-default-aws-resource-collector\",\"AlarmDescription\":\"Lambda Throttles over the last 1 minutes GreaterThanThreshold: zamboni-staging-default-aws-resource-collector\",\"AWSAccountId\":\"194648440784\",\"NewStateValue\":\"OK\",\"NewStateReason\":\"Threshold Crossed: 2 datapoints [0.0 (05/02/21 17:18:00), 0.0 (05/02/21 17:17:00)] were not greater than the threshold (0.0).\",\"StateChangeTime\":\"2021-02-05T17:20:51.549+0000\",\"Region\":\"US East (Ohio)\",\"AlarmArn\":\"arn:aws:cloudwatch:us-east-2:194648440784:alarm:lambda-throttles-greaterthanthreshold-zamboni-staging-default-aws-resource-collector\",\"OldStateValue\":\"ALARM\",\"Trigger\":{\"MetricName\":\"Throttles\",\"Namespace\":\"AWS/Lambda\",\"StatisticType\":\"Statistic\",\"Statistic\":\"SUM\",\"Unit\":null,\"Dimensions\":[{\"value\":\"zamboni-staging-default-aws-resource-collector\",\"name\":\"FunctionName\"}],\"Period\":60,\"EvaluationPeriods\":2,\"ComparisonOperator\":\"GreaterThanThreshold\",\"Threshold\":0.0,\"TreatMissingData\":\"- TreatMissingData:                    ignore\",\"EvaluateLowSampleCountPercentile\":\"\"}}",
+                "Timestamp": "2021-02-05T17:20:51.601Z",
+                "SignatureVersion": "1",
+                "Signature": "e9KsJlxQaER03fnUsPRGcXIcOCrDeorbYSeelS9trRf+UXAE11L8qzu42xERejovGX1T3AO0Huqi0k7t8EQ0luO8EzgsoT8dxLUliV+SMTo5chaRfcjx0Krh1iSLqy39D7whknYgy+Weg8+e89QHvgSVG5w9WoOyOsqG/UJEAD+1bFCpcwJO1gEOS5fYknNBbb+Iu2vdQ5tHqpT44IGlFErM8BPaSH6Hm1UdQ113RQF+fYP8jZsEp4afqfuKzx6jmHzehTgJZn72p054GCzTfUT7YT6srWiPWBTPCnRyBtZ/3SCcW5zDnFiYwPwNzBmTvBdhCl+elvalnHqRIhBjjA==",
+                "SigningCertUrl": "https://sns.us-east-2.amazonaws.com/SimpleNotificationService-010a507c1833636cd94bdb98bd93083a.pem",
+                "UnsubscribeUrl": "https://sns.us-east-2.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-2:194648440784:zamboni-staging-default-lambda-threshold-alerts20180815150821830200000004:b2929e17-8b78-4625-864e-be046ada80d6",
+                "MessageAttributes": {}
+            }
+        }
+    ]
+}
